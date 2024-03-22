@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paparazzi</title>
+  <script type="module" src="/main.js"></script>
+</head>
+
+<body class="p-5">
+  <h1 class="text-3xl font-bold italic text-center">Paparazzi</h1>
+  <h2 class="text-2xl font-bold">Modèle de l'url</h2>
+  <div class="mt-8 flex flex-col gap-y-8" x-data="urlData">
+    <template x-for="url in urls" class="url-model" class="m-4">
+      <div class="flex items-center">
+        <button 
+          type="button"
+          class="btn btn-error px-2 pb-1.5 pt-0.5 mr-1 h-7 min-h-7"
+          @click="removeUrl(url)"
+        >
+            &times;
+        </button>
+        <div class="border border-error h-full"> </div>
+        <div x-data="inputData" class="flex flex-wrap gap-y-6 items-end">
+          <select class="select">
+            <option value="http://">http://</option>
+            <option value="https://">https://</option>
+          </select>
+
+          <template x-for="(field, index) in fields" :key="field.id">
+            <div x-data="{
+                typeSelectorOpen: false,
+                type: 'text',
+              }" class="mx-1 relative">
+              <div class="absolute top-0 left-0 -translate-y-full">
+                <div 
+                  @click="typeSelectorOpen = !typeSelectorOpen" 
+                  x-text="`${type} &or;`"
+                  class="badge badge-outline capitalize">Texte &or;
+                >
+                </div>
+                <div 
+                  class="absolute top-6 left-0 bg-neutral p-2 rounded-md" 
+                  x-show="typeSelectorOpen"
+                  @click.outside="typeSelectorOpen = false"
+                >
+                  <div @click="type='text'">Texte</div>
+                  <div @click="type='range'">Range</div>
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <template x-if="type == 'text'">
+                  <input type="text" class="input input-bordered" />
+                </template>
+
+                <template x-if="type == 'range'">
+                  <div class="bg-slate-800 px-2 rounded-md">
+                    de
+                    <input type="number" step="1" class="input input-bordered w-20" />
+                    à
+                    <input type="number" step="1" class="input input-bordered w-20" />
+                  </div>
+                </template>
+
+                <button type="button" class="btn btn-danger px-2 pb-1.5 pt-0.5 h-7 min-h-7"
+                  @click="removeField(field)">&times;
+                </button>
+              </div>
+            </div>
+          </template>
+          <button class="btn btn-primary" @click="addNewField"><span class="text-lg">+</span></button>
+        </div>
+      </div>
+    </template>
+    <button @click="addNewUrl" class="btn btn-primary w-fit">+ Ajouter un modèle d'URL</button>
+  </div>
+
+  <div class="url-example italic">
+    Exemple : https://mmi22a04.fr/jour1.html
+  </div>
+
+  <div>
+    Nombre d'urls à traîter : <span id="url-count">0</span>
+  </div>
+
+  <h2 class="text-2xl font-bold">Actions</h2>
+
+  <div id="actions" class="m-4">
+    <button id="take-screenshot" class="btn btn-primary">
+      Go !
+    </button>
+  </div>
+</body>
+
+</html>
