@@ -11,6 +11,8 @@ A small js app to take screenshots of specified urls.
 
 ## Installation
 
+0. Have node v18 or higher installed.
+
 1. Clone the repository.
 2. Install the dependencies by running the following command:
 
