@@ -5,6 +5,7 @@ A small js app to take screenshots of specified urls.
 
 - Vite
 - Alpine.js
+- Express
 - Puppeteer
 - Tailwind
 
@@ -14,9 +15,20 @@ A small js app to take screenshots of specified urls.
 2. Install the dependencies by running the following command:
 
     ```bash
+    cd paparazzi_server
+    npm install
+    cd ../paparazzi_v3
     npm install
     ```
 
 ## Usage
 
-To start the development server, open a terminal and type ```npm run dev```.
+Run both the server and the frontend.
+- To start the server :
+    - `cd` to the server folder,
+    - `node server.js`. Default port is 3312.
+
+- To start the frontend :
+    - `cd` to the frontend folder,
+    - Build the files with `npm run build`,
+    - Serve with `npx serve dist\` (or anything else you want).

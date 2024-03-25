@@ -1,5 +1,6 @@
 import './style.css'
 import Alpine from 'alpinejs'
+import server_conf from '../paparazzi_server/config.js'
  
 window.Alpine = Alpine
 
@@ -21,7 +22,6 @@ const urlData = () => ({
       const urlObject = this.parseUrlModel(urlModel);
       this.constructUrls("", urlObject.length - 1, urlObject)
     })
-    console.log(this.parsedUrls);
   },
   constructUrls(string, index, urlObject){
     if (index < 0) {
@@ -67,6 +67,15 @@ const urlData = () => ({
       }
     });
     return urlObject;
+  },
+  async crawl() {
+    const res = await fetch('http://localhost:' + server_conf.port + '/', 
+    {
+      method: 'POST', 
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({urls:this.parsedUrls})
+    });
+    console.log(res);
   }
 });
 

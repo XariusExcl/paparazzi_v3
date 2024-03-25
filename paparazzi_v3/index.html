@@ -8,10 +8,10 @@
   <script type="module" src="/main.js"></script>
 </head>
 
-<body class="p-5">
+<body class="p-5" x-data="urlData">
   <h1 class="text-3xl font-bold italic text-center">Paparazzi</h1>
   <h2 class="text-2xl font-bold">Modèle de l'url</h2>
-  <div class="mt-8 flex flex-col gap-y-8" x-data="urlData">
+  <div class="mt-8 flex flex-col gap-y-8" >
     <template x-for="url in urls">
       <div data-ref="urlModel" class="flex pb-4 border-b border-slate-500">
 
@@ -43,12 +43,12 @@
                   >
                   </div>
                   <div 
-                    class="absolute top-6 left-0 bg-neutral p-2 rounded-md" 
+                    class="absolute top-6 left-0 bg-neutral py-2 rounded-md" 
                     x-show="typeSelectorOpen"
                     @click.outside="typeSelectorOpen = false"
                   >
-                    <div @click="type='text'">Texte</div>
-                    <div @click="type='range'">Range</div>
+                    <div class="px-2 hover:bg-slate-800" @click="type='text'; typeSelectorOpen = false">Texte</div>
+                    <div class="px-2 hover:bg-slate-800" @click="type='range'; typeSelectorOpen = false">Range</div>
                   </div>
                 </div>
 
@@ -78,7 +78,7 @@
 
       </div>
     </template>
-    <button @click="addNewUrl" class="btn btn-primary w-fit">+ Ajouter un modèle d'URL</button>
+    <button @click="addNewUrl" class="btn btn-primary w-fit"><span class="text-lg">+</span> Ajouter un modèle d'URL</button>
     <div>
       Nombre d'urls à traîter : <span x-text="parsedUrls.length" id="url-count">0</span>
     </div>
@@ -90,7 +90,7 @@
   <h2 class="text-2xl font-bold">Actions</h2>
 
   <div id="actions" class="m-4">
-    <button id="take-screenshot" class="btn btn-primary">
+    <button @click="crawl" id="take-screenshot" class="btn btn-primary">
       Go !
     </button>
   </div>
