@@ -33,7 +33,7 @@ const template = (locals, callback) => {
           <div class="w-full h-px bg-zinc-200 dark:bg-zinc-700 my-10"></div>
 
           <h2 class="text-lg"><span class="font-bold">📦 Directory:</span> ${locals.directory}</h2>
-          <h2 class="text-lg"><span class="font-bold">📁 Files:</span> ${locals.fileList.length}</h2>
+          <h2 class="text-lg"><span class="font-bold">📁 Items:</span> ${locals.fileList.length}</h2>
 
           <div class="w-full h-px bg-zinc-200 dark:bg-zinc-700 my-10"></div>
 
@@ -41,21 +41,21 @@ const template = (locals, callback) => {
             ${locals.fileList.map(file => {
               if (file.stat.isDirectory()){
                 if (file.name === '..') return (`
-                  <h2 class="text-lg font-bold whitespace-nowrap"><a href="${locals.directory}/${file.name}"> 📁 ${file.name}</a></h2>
+                  <h2 class="text-lg font-bold whitespace-nowrap"><a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}"> 📁 ${file.name}</a></h2>
                 `);
                 else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap">📁 ${file.name}</h2>
-                  <a href="${locals.directory}/${file.name}" class="max-w-96 h-96 bg-white shadow-xl">
-                    <img class="w-full h-full object-cover shadow-xl" src="${locals.directory}/${file.name}/index.png" alt="${file.name}" />
+                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
+                    <img class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}/index.png" alt="${file.name}" />
                   </a>
                 </div>
                 `)
               } else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap">🖼️ ${file.name}</h2>
-                  <a href="${locals.directory}/${file.name}" class="max-w-96 h-96">
-                    <img class="w-full h-full object-cover shadow-xl" src="${locals.directory}/${file.name}" alt="${file.name}" />
+                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" class="max-w-96 h-96">
+                    <img class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" alt="${file.name}" />
                   </a>
                 </div>
               `)}).join('')} 
