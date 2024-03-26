@@ -38,14 +38,27 @@ const template = (locals, callback) => {
           <div class="w-full h-px bg-zinc-200 dark:bg-zinc-700 my-10"></div>
 
           <div class="grid place-content-center lg:grid-cols-4 gap-16">
-            ${locals.fileList.map(file => `
-              <div class="flex flex-col gap-y-4">
-                <h2 class="text-lg font-bold whitespace-nowrap">🖼️ ${file.name}</h2>
-                <a href="${locals.directory}/${file.name}" class="max-w-96 h-96">
-                  <img class="w-full h-full object-cover shadow-xl" src="${locals.directory}/${file.name}" alt="${file.name}" />
-                </a>
-              </div>
-            `).join('')} 
+            ${locals.fileList.map(file => {
+              if (file.stat.isDirectory()){
+                if (file.name === '..') return (`
+                  <h2 class="text-lg font-bold whitespace-nowrap"><a href="${locals.directory}/${file.name}"> 📁 ${file.name}</a></h2>
+                `);
+                else return (`
+                <div class="flex flex-col gap-y-4">
+                  <h2 class="text-lg font-bold whitespace-nowrap">📁 ${file.name}</h2>
+                  <a href="${locals.directory}/${file.name}" class="max-w-96 h-96 bg-white shadow-xl">
+                    <img class="w-full h-full object-cover shadow-xl" src="${locals.directory}/${file.name}/index.png" alt="${file.name}" />
+                  </a>
+                </div>
+                `)
+              } else return (`
+                <div class="flex flex-col gap-y-4">
+                  <h2 class="text-lg font-bold whitespace-nowrap">🖼️ ${file.name}</h2>
+                  <a href="${locals.directory}/${file.name}" class="max-w-96 h-96">
+                    <img class="w-full h-full object-cover shadow-xl" src="${locals.directory}/${file.name}" alt="${file.name}" />
+                  </a>
+                </div>
+              `)}).join('')} 
           </div>
 
           <div class="w-full h-px bg-zinc-200 dark:bg-zinc-700 my-10"></div>

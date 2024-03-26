@@ -26,26 +26,18 @@ app.post(config.defaultUrl, (req, res) => {
     return;
   }
 
-  // const stringifiedUrls = req.body.urls.replace(/'/g, '"');
-
-  // const urls = req.body.urls;
-
-  /*
-  if (!urls) {
-    console.log('❌ No urls provided');
-    res.status(400).send('No urls provided');
-    return;
-  };
-  */
-
-  console.log('🚀 Crawling started');
+  console.log(`🚀 Crawling started, capture delay set to ${config.captureDelay}ms`);
 
   Promise.all(urls.map(url => crawl(url)))
     .then(() => {
       console.log('✅ Crawling completed');
       res.status(200).send('Crawling completed')
     })
+    .catch((error) => {
+      console.log('❌ Error during crawling', error);
+      res.status(500).send('Error during crawling');
+    });
 });
 
 app.listen(config.port);
-console.log('🖥️ Paparazzi server listening on port ' + config.port + '.');
+console.log(`🖥️ Paparazzi server listening on port ${config.port}.`);

@@ -7,6 +7,7 @@ window.Alpine = Alpine
 const urlData = () => ({
   urls: [crypto.randomUUID()],
   parsedUrls: [],
+  response: '',
   addNewUrl() {
     this.urls.push({
       id: crypto.randomUUID() 
@@ -69,13 +70,23 @@ const urlData = () => ({
     return urlObject;
   },
   async crawl() {
-    const res = await fetch('http://localhost:' + server_conf.port + '/', 
+    const apiUrl = 'http://localhost:' + server_conf.port + '/';
+    this.response = '🚀 Crawling en cours...';
+    const res = await fetch(apiUrl, 
     {
       method: 'POST', 
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({urls:this.parsedUrls})
     });
-    console.log(res);
+    try {
+      if (res.ok) {
+        this.response = `✅OK ! Vos captures d'écran sont sur ${apiUrl}${server_conf.staticUrl} !`;
+      } else {
+        this.response = `⚠️Quelques erreurs ! Vos captures d'écran valides sont sur ${apiUrl}${server_conf.staticUrl} !`;
+      }
+    } catch (error) {
+      this.response = `❌ Erreur lors de la requête : ${error}`;
+    }
   }
 });
 

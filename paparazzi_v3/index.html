@@ -12,7 +12,7 @@
   <h1 class="text-3xl font-bold italic text-center">Paparazzi</h1>
   <h2 class="text-2xl font-bold">Modèle de l'url</h2>
   <div class="mt-8 flex flex-col gap-y-8" >
-    <template x-for="url in urls">
+    <template x-for="url in urls" :key="url.id">
       <div data-ref="urlModel" class="flex pb-4 border-b border-slate-500">
 
         <div class="flex gap-x-2 items-center">
@@ -30,12 +30,12 @@
               <option value="https://">https://</option>
             </select>
 
-            <template x-for="(field, index) in fields" :key="field.id">
+            <template x-for="field in fields" :key="field.id">
               <div x-data="{
                   typeSelectorOpen: false,
                   type: 'text',
                 }" class="mx-1 relative">
-                <div class="absolute top-0 left-0 -translate-y-full">
+                <div class="absolute top-0 left-8 -translate-y-full">
                   <div 
                     @click="typeSelectorOpen = !typeSelectorOpen" 
                     x-text="`${type} &or;`"
@@ -43,7 +43,7 @@
                   >
                   </div>
                   <div 
-                    class="absolute top-6 left-0 bg-neutral py-2 rounded-md" 
+                    class="absolute top-6 left-2 bg-neutral py-2 rounded-md" 
                     x-show="typeSelectorOpen"
                     @click.outside="typeSelectorOpen = false"
                   >
@@ -53,10 +53,14 @@
                 </div>
 
                 <div class="flex items-center">
-                  <template x-if="type == 'text'">
-                    <input data-ref="input" @blur="generateUrls" @keydown="$nextTick(() => {$el.style.width = `calc(${$el.value.length}ch + 34px`})" type="text" class="input input-bordered w-16 min-w-16" />
-                  </template>
+                  <button type="button" class="btn btn-danger px-2 pb-1.5 pt-0.5 h-7 min-h-7"
+                    @click="removeField(field)">&times;
+                  </button>
 
+                  <template x-if="type == 'text'">
+                    <input data-ref="input" @blur="generateUrls" @keyup="$nextTick(() => {$el.style.width = `calc(${$el.value.length}ch + 34px`})" type="text" class="input input-bordered w-16 min-w-16" />
+                  </template>
+                  
                   <template x-if="type == 'range'">
                     <div class="bg-slate-800 px-2 rounded-md">
                       de
@@ -65,10 +69,6 @@
                       <input data-ref="input" @blur="generateUrls" data-range-end class="input input-bordered w-20" />
                     </div>
                   </template>
-
-                  <button type="button" class="btn btn-danger px-2 pb-1.5 pt-0.5 h-7 min-h-7"
-                    @click="removeField(field)">&times;
-                  </button>
                 </div>
               </div>
             </template>
@@ -83,7 +83,7 @@
       Nombre d'urls à traîter : <span x-text="parsedUrls.length" id="url-count">0</span>
     </div>
     <div class="url-example italic">
-      Exemple : <span x-text="parsedUrls[Math.floor(Math.random() * parsedUrls.length)]">https://mmi22a04.fr/jour1.html</span>
+      Exemple : <span x-text="parsedUrls[Math.floor(Math.random() * parsedUrls.length)]"></span>
     </div>
   </div>
 
@@ -94,6 +94,8 @@
       Go !
     </button>
   </div>
+
+  <p x-text="response"></p>
 </body>
 
 </html>
