@@ -7,13 +7,34 @@ const template = (locals, callback) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📸</text></svg>">
+        <script src="studentInfo.js"></script><!-- // This is an uncommited file. -->
         <script>
+            // Dark mode toggle
             tailwind.config = {
               darkMode: 'selector',
             }
             window.toggleDarkMode = () => {
               document.body.classList.toggle('dark');
               document.querySelector('[data-ref="dark-mode-toggle"]').textContent = document.body.classList.contains('dark') ? '🌞' : '🌙'
+            }
+
+            // Show student names
+            window.autoRenameFolders = () => {
+              if (typeof studentInfo === "undefined") {
+                console.warn('studentInfo.js was not found! This feature will not work.');
+                return;
+              }
+              document.querySelectorAll('h2').forEach(h2 => {
+                let mmi_id = h2.textContent.match(/mmi[0-9]{2}[a-z][0-9]{2}/);
+                if (mmi_id === null)
+                  return;
+                if (!studentInfo[mmi_id]) 
+                  return;
+                h2.textContent = "📁" + studentInfo[mmi_id] + " (" + h2.textContent.split(" ")[1] + ")";
+              });
+            }
+            window.onload = () => {
+              window.autoRenameFolders();
             }
         </script>
       </head>
@@ -46,7 +67,7 @@ const template = (locals, callback) => {
                 `);
                 else return (`
                 <div class="flex flex-col gap-y-4">
-                  <h2 class="text-lg font-bold whitespace-nowrap">📁 ${file.name}</h2>
+                  <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
                   <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
                     <img
                       class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/index.png"
@@ -59,7 +80,7 @@ const template = (locals, callback) => {
               // Is a file
               } else return (`
                 <div class="flex flex-col gap-y-4">
-                  <h2 class="text-lg font-bold whitespace-nowrap">🖼️ ${file.name}</h2>
+                  <h2 class="text-lg font-bold whitespace-nowrap truncate">🖼️ ${file.name}</h2>
                   <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
                     <img
                       class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
