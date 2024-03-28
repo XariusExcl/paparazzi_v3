@@ -6,6 +6,11 @@ const crawl = async (url) => {
   console.log(`🕷️ Crawling ${url}`)
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  const urlObject = new URL(url);
+  const directory = `./public/${urlObject.hostname}`;
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
 
   try {
     await page.goto(url);
@@ -22,14 +27,8 @@ const crawl = async (url) => {
     deviceScaleFactor: 1,
   });
   
-  const urlObject = new URL(url);
-  const directory = `./public/${urlObject.hostname}`;
   const pathname = (urlObject.pathname) ? 'index' : urlObject.pathname.replace(/\//g, '-').slice(1);
   await new Promise(resolve => setTimeout(resolve, config.captureDelay));
-  if (!fs.existsSync
-    (directory)) {
-    fs.mkdirSync(directory, { recursive: true });
-  }
   await page.screenshot({fullPage: config.fullPage, path: `${directory}/${pathname}.png`});
 
   await browser.close();

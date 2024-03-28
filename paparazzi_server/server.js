@@ -15,6 +15,7 @@ app.use(config.staticUrl, serveIndex('public', {
   template: template
 }));
 app.use(config.staticUrl, express.static('public'));
+app.use('/404.png', express.static('404.png'));
 
 app.post(config.defaultUrl, (req, res) => {
 

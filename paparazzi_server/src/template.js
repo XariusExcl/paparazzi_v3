@@ -40,22 +40,32 @@ const template = (locals, callback) => {
           <div class="grid place-content-center lg:grid-cols-4 gap-16">
             ${locals.fileList.map(file => {
               if (file.stat.isDirectory()){
+                // Special case for ".." directory
                 if (file.name === '..') return (`
-                  <h2 class="text-lg font-bold whitespace-nowrap"><a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}"> 📁 ${file.name}</a></h2>
+                  <h2 class="text-lg font-bold whitespace-nowrap"><a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"> 📁 ${file.name}</a></h2>
                 `);
                 else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap">📁 ${file.name}</h2>
-                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
-                    <img class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}/index.png" alt="${file.name}" />
+                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
+                    <img
+                      class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/index.png"
+                      alt="${file.name}"
+                      onerror="this.onerror=null; this.src='/404.png'"
+                      />
                   </a>
                 </div>
                 `)
+              // Is a file
               } else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap">🖼️ ${file.name}</h2>
-                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" class="max-w-96 h-96">
-                    <img class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/gi, "/")}" alt="${file.name}" />
+                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
+                    <img
+                      class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
+                      alt="${file.name}"
+                      onerror="this.onerror=null; this.src='/404.png'"
+                    />
                   </a>
                 </div>
               `)}).join('')} 

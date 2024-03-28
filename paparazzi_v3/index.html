@@ -9,8 +9,8 @@
 </head>
 
 <body class="p-5" x-data="urlData">
-  <h1 class="text-3xl font-bold italic text-center">Paparazzi</h1>
-  <h2 class="text-2xl font-bold">Modèle de l'url</h2>
+  <h1 class="text-3xl font-bold italic text-center">📸 Paparazzi</h1>
+  <h2 class="text-2xl font-bold">Modèle(s) d'url à capturer :</h2>
   <div class="mt-8 flex flex-col gap-y-8" >
     <template x-for="url in urls" :key="url.id">
       <div data-ref="urlModel" class="flex pb-4 border-b border-slate-500">
@@ -81,13 +81,14 @@
     <button @click="addNewUrl" class="btn btn-primary w-fit"><span class="text-lg">+</span> Ajouter un modèle d'URL</button>
     <div>
       Nombre d'urls à traîter : <span x-text="parsedUrls.length" id="url-count">0</span>
+      <div class="url-example italic">
+        Exemple : <span x-text="parsedUrls[Math.floor(Math.random() * parsedUrls.length)]"></span>
+      </div>
     </div>
-    <div class="url-example italic">
-      Exemple : <span x-text="parsedUrls[Math.floor(Math.random() * parsedUrls.length)]"></span>
-    </div>
+    <br>
   </div>
 
-  <h2 class="text-2xl font-bold">Actions</h2>
+  <h2 class="text-2xl font-bold">Actions :</h2>
 
   <div id="actions" class="m-4">
     <button @click="crawl" id="take-screenshot" class="btn btn-primary">
