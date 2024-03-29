@@ -80,7 +80,7 @@
     </template>
     <button @click="addNewUrl" class="btn btn-primary w-fit"><span class="text-lg">+</span> Ajouter un modèle d'URL</button>
     <div>
-      Nombre d'urls à traîter : <span x-text="parsedUrls.length" id="url-count">0</span>
+      Nombre d'urls à traîter : <span x-text="parsedUrls.length" id="url-count">0</span><span title="Beaucoup d'urls sont dans la liste à capturer, ce qui peut consommer beaucoup de mémoire et faire échouer quelques requêtes (timeout)" x-text="(parsedUrls.length > 49)?'⚠️':''"></span>
       <div class="url-example italic">
         Exemple : <span x-text="parsedUrls[Math.floor(Math.random() * parsedUrls.length)]"></span>
       </div>

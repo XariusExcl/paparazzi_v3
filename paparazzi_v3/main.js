@@ -71,7 +71,7 @@ const urlData = () => ({
   },
   async crawl() {
     const apiUrl = 'http://localhost:' + server_conf.port + '/';
-    this.response = '🚀 Crawling en cours...';
+    this.response = '🚀 Captures en cours... Cette opération peut prendre jusqu\'a deux minutes.';
     const res = await fetch(apiUrl, 
     {
       method: 'POST', 
