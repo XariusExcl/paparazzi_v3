@@ -5,7 +5,8 @@ const config = {
   captureDelay: 3000, // 3 seconds
   width: 1920,
   height: 1080,
-  fullPage: true
+  fullPage: true,
+  maxBatchSize: 30
 }
 
 export default config;

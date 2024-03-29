@@ -30,15 +30,24 @@ app.post(config.defaultUrl, (req, res) => {
 
   console.log(`🚀 Crawling started, capture delay set to ${config.captureDelay}ms`);
 
-  Promise.all(urls.map(url => crawl(url)))
-    .then(() => {
-      console.log('✅ Crawling completed');
-      res.status(200).send('Crawling completed')
-    })
-    .catch((error) => {
-      console.log('❌ Error during crawling', error);
-      res.status(500).send('Error during crawling');
-    });
+  new Promise(async (resolve, reject) => {
+    if (urls.length > config.maxBatchSize) {
+      for (let i = 0; i < urls.length; i += config.maxBatchSize) {
+        const batch = urls.slice(i, i + config.maxBatchSize);
+        await Promise.all(batch.map(url => crawl(url)));
+      }
+    } else {
+      await Promise.all(urls.map(url => crawl(url)));
+    };
+    resolve();
+  }).then(() => {
+    console.log('✅ Crawling completed');
+    res.status(200).send('Crawling completed')
+  })
+  .catch((error) => {
+    console.log('❌ Error during crawling', error);
+    res.status(500).send('Error during crawling');
+  });
 });
 
 app.listen(config.port);
