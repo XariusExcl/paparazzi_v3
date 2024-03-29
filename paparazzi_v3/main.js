@@ -8,6 +8,7 @@ const urlData = () => ({
   urls: [crypto.randomUUID()],
   parsedUrls: [],
   response: '',
+  isLoading: false,
   addNewUrl() {
     this.urls.push({
       id: crypto.randomUUID() 
@@ -71,7 +72,8 @@ const urlData = () => ({
   },
   async crawl() {
     const apiUrl = 'http://localhost:' + server_conf.port + '/';
-    this.response = '🚀 Captures en cours... Cette opération peut prendre jusqu\'a deux minutes.';
+    this.response = '🚀 Captures en cours... Cette opération peut prendre quelques minutes.';
+    this.isLoading = true;
     const res = await fetch(apiUrl, 
     {
       method: 'POST', 
@@ -87,6 +89,7 @@ const urlData = () => ({
     } catch (error) {
       this.response = `❌ Erreur lors de la requête : ${error}`;
     }
+    this.isLoading = false;
   }
 });
 

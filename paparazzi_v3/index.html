@@ -95,8 +95,12 @@
       Go !
     </button>
   </div>
-
-  <p x-text="response"></p>
+  <div class="flex items-center">
+    <template x-if="isLoading">
+      <div class="loader mx-5"></div>
+    </template>
+    <span x-text="response"></span>
+  </div>
 </body>
 
 </html>

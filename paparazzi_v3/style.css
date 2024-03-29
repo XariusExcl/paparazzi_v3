@@ -26,3 +26,17 @@ input, textarea, select {
 body {
   margin: 0;
 }
+
+.loader {
+  width: 10px;
+  height: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 15px 0 #eee, -15px 0 #eee2;background: #eee }
+    33% {box-shadow: 15px 0 #eee, -15px 0 #eee2;background: #eee2}
+    66% {box-shadow: 15px 0 #eee2,-15px 0 #eee; background: #eee2}
+    100%{box-shadow: 15px 0 #eee2,-15px 0 #eee; background: #eee }
+}
