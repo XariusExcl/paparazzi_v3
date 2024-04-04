@@ -26,8 +26,8 @@ const crawl = async (url) => {
     height: config.height,
     deviceScaleFactor: 1,
   });
-  
-  const pathname = (urlObject.pathname) ? 'index' : urlObject.pathname.replace(/\//g, '-').slice(1);
+
+  const pathname = (urlObject.pathname) == "/" ? "index" : urlObject.pathname.replace(/\//g, '-').slice(1);
   await new Promise(resolve => setTimeout(resolve, config.captureDelay));
   await page.screenshot({fullPage: config.fullPage, path: `${directory}/${pathname}.png`});
 
