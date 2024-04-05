@@ -91,7 +91,7 @@ const template = (locals, callback) => {
                     <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
                     <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl domain-folder">
                       ${fs.readdirSync("public/" + file.name).map((recursiveFile, index, array) => {
-                        if (index > 4) return;
+                        if (index > 3) return;
                         return `
                           <img
                             class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/${recursiveFile}"
