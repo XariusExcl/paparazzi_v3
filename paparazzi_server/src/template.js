@@ -1,4 +1,5 @@
 import config from '../config.js';
+import fs from "fs";
 
 const template = (locals, callback) => {
   callback(null, `
@@ -35,10 +36,28 @@ const template = (locals, callback) => {
                 h2.textContent = "📁" + studentInfo[mmi_id] + " (" + h2.textContent.split(" ")[1] + ")";
               });
             }
+
+            window.show404 = () => {
+              document.querySelectorAll('.domain-folder').forEach(folder => {
+                console.log(folder.children.length);
+                if (folder.children.length === 0) {
+                  folder.innerHTML = '<img src="/404.png" alt="404" style="grid-area:1/1/3/3"" />';
+                }
+              });
+            }
+
             window.onload = () => {
               window.autoRenameFolders();
+              window.show404();
             }
         </script>
+        <style>
+          .domain-folder {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+          }
+        </style>
       </head>
       <body class="bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 mx-4">
         <div class="container mx-auto py-20 min-h-screen relative">
@@ -67,18 +86,28 @@ const template = (locals, callback) => {
                 if (file.name === '..') return (`
                   <h2 class="text-lg font-bold whitespace-nowrap"><a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"> 📁 ${file.name}</a></h2>
                 `);
-                else return (`
-                <div class="flex flex-col gap-y-4">
-                  <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
-                  <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
-                    <img
-                      class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/index.png"
-                      alt="${file.name}"
-                      onerror="this.onerror=null; this.src='${config.defaultUrl}/404.png'"
-                      />
-                  </a>
-                </div>
-                `)
+                else {
+                  return (`
+                  <div class="flex flex-col gap-y-4">
+                    <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
+                    <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl domain-folder">
+                      ${fs.readdirSync("public/" + file.name).map((recursiveFile, index, array) => {
+                        if (index > 3) return;
+                        return `
+                          <img
+                            class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/${recursiveFile}"
+                            alt="${file.name}"
+                            onerror="this.onerror=null; this.src='/404.png'"
+                            ${array.length === 1 ? `style="grid-area:1/1/3/3"` : ""}
+                            ${array.length === 2 ? `style="grid-area:1/${index+1}/3/${index+2}"` : ""}
+                          />
+                        `
+                      }).join('')}
+                    </a>
+                  </div>
+                  `)
+                }
+                
               // Is a file
               } else return (`
                 <div class="flex flex-col gap-y-4">
@@ -91,7 +120,7 @@ const template = (locals, callback) => {
                     />
                   </a>
                 </div>
-              `)}).join('')} 
+              `)}).join('')}
           </div>
 
           <div class="w-full h-px bg-zinc-200 dark:bg-zinc-700 my-10"></div>

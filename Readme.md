@@ -28,7 +28,7 @@ A small js app to take screenshots of specified urls.
 Run both the server and the frontend.
 - To start the server :
     - `cd` to the server folder,
-    - `node server.js`. Default port is 3312.
+    - `node server.js`. Default port is 3312 (http://localhost:3312/public).
 
 - To start the frontend :
     - `cd` to the frontend folder,
