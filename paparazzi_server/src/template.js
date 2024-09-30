@@ -1,3 +1,5 @@
+import config from '../config.js';
+
 const template = (locals, callback) => {
   callback(null, `
     <!DOCTYPE html>
@@ -68,11 +70,11 @@ const template = (locals, callback) => {
                 else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
-                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
+                  <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl">
                     <img
-                      class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/index.png"
+                      class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/index.png"
                       alt="${file.name}"
-                      onerror="this.onerror=null; this.src='/404.png'"
+                      onerror="this.onerror=null; this.src='${config.defaultUrl}/404.png'"
                       />
                   </a>
                 </div>
@@ -81,11 +83,11 @@ const template = (locals, callback) => {
               } else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap truncate">🖼️ ${file.name}</h2>
-                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
+                  <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
                     <img
-                      class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
+                      class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
                       alt="${file.name}"
-                      onerror="this.onerror=null; this.src='/404.png'"
+                      onerror="this.onerror=null; this.src='${config.defaultUrl}/404.png'"
                     />
                   </a>
                 </div>
