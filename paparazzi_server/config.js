@@ -1,5 +1,5 @@
 const config = {
-  defaultUrl: '/',
+  defaultUrl: '/paparazzi_server/',
   staticUrl: '/public',
   port: 3312,
   captureDelay: 3000, // 3 seconds

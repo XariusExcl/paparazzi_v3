@@ -41,7 +41,7 @@ const template = (locals, callback) => {
               document.querySelectorAll('.domain-folder').forEach(folder => {
                 console.log(folder.children.length);
                 if (folder.children.length === 0) {
-                  folder.innerHTML = '<img src="/404.png" alt="404" style="grid-area:1/1/3/3"" />';
+                  folder.innerHTML = '<img src="${config.defaultUrl}404.png" alt="404" style="grid-area:1/1/3/3"" />';
                 }
               });
             }
@@ -97,7 +97,7 @@ const template = (locals, callback) => {
                           <img
                             class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/${recursiveFile}"
                             alt="${file.name}"
-                            onerror="this.onerror=null; this.src='/404.png'"
+                            onerror="this.onerror=null; this.src='${config.defaultUrl}404.png'"
                             ${array.length === 1 ? `style="grid-area:1/1/3/3"` : ""}
                             ${array.length === 2 ? `style="grid-area:1/${index+1}/3/${index+2}"` : ""}
                           />
@@ -116,7 +116,7 @@ const template = (locals, callback) => {
                     <img
                       class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
                       alt="${file.name}"
-                      onerror="this.onerror=null; this.src='${config.defaultUrl}/404.png'"
+                      onerror="this.onerror=null; this.src='${config.defaultUrl}404.png'"
                     />
                   </a>
                 </div>
