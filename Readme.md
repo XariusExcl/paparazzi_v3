@@ -9,7 +9,15 @@ A small js app to take screenshots of specified urls.
 - Puppeteer
 - Tailwind
 
-## Installation
+## Installation (Dockerfile)
+
+1. `docker build -t paparazzi .`
+
+Client is on port :3000 and is reachable on the url http://localhost:3000/
+
+Server is on port :3312 and is reachable on the url http://localhost:3312/public
+
+## Installation (Classic)
 
 0. Have node v18 or higher installed.
 
