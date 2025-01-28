@@ -1,3 +1,4 @@
+import config from '../config.js';
 import fs from "fs";
 
 const template = (locals, callback) => {
@@ -40,7 +41,7 @@ const template = (locals, callback) => {
               document.querySelectorAll('.domain-folder').forEach(folder => {
                 console.log(folder.children.length);
                 if (folder.children.length === 0) {
-                  folder.innerHTML = '<img src="/404.png" alt="404" style="grid-area:1/1/3/3"" />';
+                  folder.innerHTML = '<img src="${config.defaultUrl}404.png" alt="404" style="grid-area:1/1/3/3"" />';
                 }
               });
             }
@@ -89,14 +90,14 @@ const template = (locals, callback) => {
                   return (`
                   <div class="flex flex-col gap-y-4">
                     <h2 class="text-lg font-bold whitespace-nowrap truncate">📁 ${file.name}</h2>
-                    <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl domain-folder">
+                    <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96 bg-white shadow-xl domain-folder">
                       ${fs.readdirSync("public/" + file.name).map((recursiveFile, index, array) => {
                         if (index > 3) return;
                         return `
                           <img
-                            class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/${recursiveFile}"
+                            class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}/${recursiveFile}"
                             alt="${file.name}"
-                            onerror="this.onerror=null; this.src='/404.png'"
+                            onerror="this.onerror=null; this.src='${config.defaultUrl}404.png'"
                             ${array.length === 1 ? `style="grid-area:1/1/3/3"` : ""}
                             ${array.length === 2 ? `style="grid-area:1/${index+1}/3/${index+2}"` : ""}
                           />
@@ -111,11 +112,11 @@ const template = (locals, callback) => {
               } else return (`
                 <div class="flex flex-col gap-y-4">
                   <h2 class="text-lg font-bold whitespace-nowrap truncate">🖼️ ${file.name}</h2>
-                  <a href="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
+                  <a href="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}" class="max-w-96 h-96">
                     <img
-                      class="w-full h-full object-cover shadow-xl" src="${(locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
+                      class="w-full h-full object-cover shadow-xl" src="${(config.defaultUrl + locals.directory + "/" + file.name).replace(/\/\/+/i, "/")}"
                       alt="${file.name}"
-                      onerror="this.onerror=null; this.src='/404.png'"
+                      onerror="this.onerror=null; this.src='${config.defaultUrl}404.png'"
                     />
                   </a>
                 </div>
