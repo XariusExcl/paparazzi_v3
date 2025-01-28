@@ -4,7 +4,9 @@ import fs from "fs";
 
 const crawl = async (url) => {
   console.log(`🕷️ Crawling ${url}`)
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox"],
+  });
   const page = await browser.newPage();
   const urlObject = new URL(url);
   const directory = `./public/${urlObject.hostname}`;

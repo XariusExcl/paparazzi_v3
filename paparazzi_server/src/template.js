@@ -39,7 +39,6 @@ const template = (locals, callback) => {
 
             window.show404 = () => {
               document.querySelectorAll('.domain-folder').forEach(folder => {
-                console.log(folder.children.length);
                 if (folder.children.length === 0) {
                   folder.innerHTML = '<img src="${config.defaultUrl}404.png" alt="404" style="grid-area:1/1/3/3"" />';
                 }

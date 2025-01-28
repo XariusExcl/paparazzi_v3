@@ -1,26 +1,32 @@
-# Use an official Node.js runtime as a parent image
 FROM node:18
 
-# Set the working directory
 WORKDIR /app
 
-# Set the working directory to the server folder and install dependencies
+# Install puppeteer dependencies
+RUN apt-get update && apt-get install -y wget gnupg ca-certificates
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+RUN apt-get update
+RUN apt-get install -y google-chrome-stable
+
+# Server
 WORKDIR /app/paparazzi_server
-COPY paparazzi_server/package.json .
-RUN npm install
+COPY paparazzi_server/package.json paparazzi_server/package-lock.json ./ 
+RUN npm ci
+RUN npx puppeteer browsers install chrome
 COPY paparazzi_server/ .
 
-# Set the working directory to the frontend folder and install dependencies
+# Frontend
 WORKDIR /app/paparazzi_v3
 COPY paparazzi_v3/package.json paparazzi_v3/package-lock.json ./
 RUN npm ci
 COPY paparazzi_v3/ .
 RUN npm run build
 
-# Expose the server port
+# Server port
 EXPOSE 3312
 
-# Expose the client port
+# Client port
 EXPOSE 3000
 
 # Start the server and frontend
