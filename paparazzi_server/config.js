@@ -6,7 +6,7 @@ const config = {
   width: 1920,
   height: 1080,
   fullPage: true,
-  maxBatchSize: 30
+  maxBatchSize: 15
 }
 
 export default config;
